@@ -3,9 +3,14 @@ import React, { useState } from "react";
 export const Todo = () => {
   const [listTodos, setListTodos] = useState([]);
   const [todo, setTodo] = useState("");
-  const deleteTodo = ()=>{
 
-  }
+  const deleteTodo = (indiceTarea) => {
+    setListTodos((prevState) => {
+      return prevState.filter((item, index) => {
+        return index !== indiceTarea;
+      });
+    });
+  };
 
   return (
     <div className="card">
@@ -21,18 +26,31 @@ export const Todo = () => {
         }}
       />
       <ul>
-        {listTodos.length>0 ? listTodos.map((tarea, index) => {
-          return (
-            <>
-              <li className="list-group-item d-flex justify-content-between" key={index}>
-                {tarea}
-              </li>
-              <button className="btn btn-light"
-              >Eliminar tarea</button>
-            </>
-          );
-        }): <>No hay tareas pendientes</>
-    }
+        {listTodos.length > 0 ? (
+          listTodos.map((tarea, index) => {
+            return (
+              <>
+                <li
+                  className="list-group-item d-flex justify-content-between"
+                  key={index}
+                >
+                  {tarea}
+
+                  <button
+                    className="btn btn-light"
+                    onClick={(e) => {
+                      deleteTodo(index);
+                    }}
+                  >
+                    <i className="fa fa-times"></i>
+                  </button>
+                </li>
+              </>
+            );
+          })
+        ) : (
+          <>No hay tareas pendientes</>
+        )}
       </ul>
     </div>
   );
